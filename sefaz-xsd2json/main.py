@@ -36,6 +36,14 @@ def load_simpletypes(tree):
 def load_complextypes(tree):
     types = tree.xpath('//xs:complexType', namespaces = namespaces)
     for ttype in types:
+        elements = map(extract_name_type, ttype.xpath('xs:sequence/xs:element', namespaces = namespaces))
+        attributes = map(extract_name_type, ttype.xpath('xs:attribute', namespaces = namespaces))
+
+        if len(list(filter(lambda e: e.tag.endswith('simpleContent'), ttype.getchildren()))) != 0:
+            attributes = map(extract_name_type, ttype.xpath('xs:simpleContent/xs:extension/xs:attribute', namespaces = namespaces))
+            elements = [{ 'name': '$value', 'type': 'string' }]
+
+        complextypes[name] = { 'elements': elements, 'attributes': attributes }
         name = ttype.get('name')
         if not name:
             ttype.set('name', str(random.random()))
