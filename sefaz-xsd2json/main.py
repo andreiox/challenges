@@ -71,22 +71,22 @@ def extract_name_type(node):
 
 def generate_fake_values(ttype):
     if ttype in complextypes:
-        structure = {}
+        structure = { 'type': 'object', 'properties': {} }
         complextype = complextypes[ttype]
 
         attributes = list(complextype['attributes'])
         if len(attributes):
-            structure['attributes'] = {}
+            structure['properties']['attributes'] = { 'type': 'object', 'properties': {} }
             for attr in attributes:
-                structure['attributes'][attr['name']] = generate_fake_values(attr['type'])
+                structure['properties']['attributes']['properties'][attr['name']] = generate_fake_values(attr['type'])
 
         elements = list(complextype['elements'])
         for element in elements:
-            structure[element['name']] = generate_fake_values(element['type'])
+            structure['properties'][element['name']] = generate_fake_values(element['type'])
 
         return structure
 
-    return 'string'
+    return { 'type': 'string' }
 
 fake_element = generate_fake_values_element(sys.argv[1], sys.argv[2])
 print(json.dumps(fake_element, indent=4))
