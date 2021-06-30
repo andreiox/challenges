@@ -1,0 +1,17 @@
+{
+    "name": "memoizee-poc",
+    "version": "1.0.0",
+    "description": "Memoizee Proof Of Concept",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "author": "Andre Macedo",
+    "license": "MIT",
+    "dependencies": {
+        "async-sleep": "^0.1.0",
+        "memoizee": "^0.4.15",
+        "object-hash": "^2.2.0"
+    }
+}
